@@ -1,0 +1,1 @@
+<?php require_once  dirname(__DIR__).DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."client".DIRECTORY_SEPARATOR."index".DIRECTORY_SEPARATOR."framework.php"?>
