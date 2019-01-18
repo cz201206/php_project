@@ -20,3 +20,11 @@ function printf_cz($content){
     var_dump($content);
 }
 
+function publish($dir,$name,$json){
+    if (!file_exists($dir)){
+        mkdir ($dir,0777,true);
+    }
+    $path = $dir.DIRECTORY_SEPARATOR.$name;
+    file_put_contents($path,$json);
+    echo "<a href='file://$path'>$path</a><br>";
+}
