@@ -28,3 +28,16 @@ function publish($dir,$name,$json){
     file_put_contents($path,$json);
     echo "<a href='file://$path'>$path</a><br>";
 }
+
+function jsonForObjs($objs){
+    $objs_tmp = [];
+    foreach ($objs as $obj){
+        $obj_tmp = [];
+        foreach($obj as $key=>$val){
+            $key_tmp = urlencode ( $key );
+            $obj_tmp[$key_tmp] = urlencode ( $val );
+        }
+        $objs_tmp[] = $obj_tmp;
+    }
+    return urldecode(json_encode($objs_tmp));
+}

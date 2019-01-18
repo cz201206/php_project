@@ -58,6 +58,29 @@ class Dao{
 
         return $rows;
     }
+    function queryByID($SQL, $params_types, $params){
+
+        //准备语句
+        $stmt = mysqli_prepare($this->conn,$SQL);
+        if(null!=$params_types){
+            //反射调用函数参数准备
+            $arr_add[] = $stmt;
+            $arr_add[] = $params_types;
+            //处理参数：转化为地址类型引用传递
+
+            foreach ($params as &$param) {
+                $arr_add[] = &$param;
+            }
+
+            //反射调用绑定参数
+            call_user_func_array("mysqli_stmt_bind_param",$arr_add);
+        }
+        //获取结果集
+        $result_execute = mysqli_stmt_execute($stmt);
+        $result = $stmt->get_result();
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        return $row;
+    }
 
     function query_toArray_urlencode($SQL, $params_types, $params){
 
