@@ -77,8 +77,6 @@ class ChinesePinyin{
 		
 	}
 
-
-	
 	public function TransformWithoutTonedeleteCode($input_char,$delimiter='',$outside_ignore=false){
         $str = $this->TransformWithoutTone($input_char,$delimiter,$outside_ignore);
         //中文标点
@@ -92,7 +90,9 @@ class ChinesePinyin{
         $str = preg_replace($pattern, '', $str);
         return $str;
     }
-	
-	
+
+    function pinying($hanyu){
+        return $this->TransformWithoutTonedeleteCode($hanyu);
+    }
 	
 }
