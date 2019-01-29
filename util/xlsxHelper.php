@@ -16,7 +16,6 @@ class XlsxHelper{
 
     public function loop(){
 
-
         echo '<table>' . PHP_EOL;
         foreach ($this->worksheet->getRowIterator() as $row) {
             echo '<tr>' . PHP_EOL;
@@ -33,6 +32,61 @@ class XlsxHelper{
             echo '</tr>' . PHP_EOL;
         }
         echo '</table>' . PHP_EOL;
+    }
+    public function cellByCoordinate($coordinate='A1'){
+        return $this->worksheet->getCell($coordinate)->getCalculatedValue();
+    }
+    public function cellByRowColumn($rowIndex=1,$columnIndex=1){
+        return $this->worksheet->getCellByColumnAndRow($rowIndex, $columnIndex)->getCalculatedValue();
+    }
+    public function row($rowIndex){
+        $rowVal = [];
+        $RowIterator = $this->worksheet->getRowIterator($rowIndex,$rowIndex);
+        foreach($RowIterator as $row){
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
+            //    even if a cell value is not set.
+            // By default, only cells that have a value
+            //    set will be iterated.
+            foreach ($cellIterator as $cell) {
+                $cellVal = $cell->getValue();
+                $rowVal[] = $cellVal;
+            }
+        }
+        return $rowVal;
+    }
+    public function column($columnIndex){
+        $columnVal = [];
+        $RowIterator = $this->worksheet->getColumnIterator($columnIndex,$columnIndex);
+        foreach($RowIterator as $row){
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
+            //    even if a cell value is not set.
+            // By default, only cells that have a value
+            //    set will be iterated.
+            foreach ($cellIterator as $cell) {
+                $cellVal = $cell->getValue();
+                $columnVal[] = $cellVal;
+            }
+        }
+        return $columnVal;
+    }
+    public function range($coordinateRange='A1:B2'){
+        $dataArray = $this->worksheet
+            ->rangeToArray(
+                $coordinateRange,     // The worksheet range that we want to retrieve
+                NULL,        // Value that should be returned for empty cells
+                TRUE,        // Should formulas be calculated (the equivalent of getCalculatedValue() for each cell)
+                TRUE,        // Should values be formatted (the equivalent of getFormattedValue() for each cell)
+                TRUE         // Should the array be indexed by cell row and cell column
+            );
+        return $dataArray;
+    }
+    public function sheet(){
+
+    }
+    public function info($row,$column){
+
     }
 
 }
