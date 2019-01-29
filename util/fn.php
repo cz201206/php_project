@@ -41,3 +41,7 @@ function jsonForObjs($objs){
     }
     return urldecode(json_encode($objs_tmp));
 }
+
+function GBKPath($path){
+    return iconv('utf-8','GBK',$path);
+}

@@ -1,6 +1,39 @@
 <?php
-
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php";
 class XlsxHelper{
+    public $worksheet;
+    function __construct($path,$sheetIndex=0)
+    {
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(TRUE);
+        $spreadsheet = $reader->load($path);
+
+        if($sheetIndex)
+            $this->worksheet = $spreadsheet->getSheet($sheetIndex);
+        else
+            $this->worksheet = $spreadsheet->getActiveSheet();
+    }
+
+    public function loop(){
+
+
+        echo '<table>' . PHP_EOL;
+        foreach ($this->worksheet->getRowIterator() as $row) {
+            echo '<tr>' . PHP_EOL;
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
+            //    even if a cell value is not set.
+            // By default, only cells that have a value
+            //    set will be iterated.
+            foreach ($cellIterator as $cell) {
+                echo '<td>' .
+                    $cell->getValue() .
+                    '</td>' . PHP_EOL;
+            }
+            echo '</tr>' . PHP_EOL;
+        }
+        echo '</table>' . PHP_EOL;
+    }
 
 }
 
