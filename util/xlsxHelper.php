@@ -1,5 +1,9 @@
 <?php
 
+class XlsxHelper{
+
+}
+
 function importSpecDatas($worksheet, $product_category_ID, $ChinesePinyin, $ProductSpecDao)
 {
     $count = 0;//列计数
