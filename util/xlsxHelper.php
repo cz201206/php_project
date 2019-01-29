@@ -2,17 +2,23 @@
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php";
 class XlsxHelper{
     public $worksheet;
+    public $spreadsheet;
     function __construct($path,$sheetIndex=0)
     {
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
-        $spreadsheet = $reader->load($path);
+
+        if($path)
+            $spreadsheet = $reader->load($path);
+        else
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 
         if($sheetIndex)
             $this->worksheet = $spreadsheet->getSheet($sheetIndex);
         else
             $this->worksheet = $spreadsheet->getActiveSheet();
     }
+
 
     public function loop(){
 
@@ -88,7 +94,13 @@ class XlsxHelper{
     public function info($row,$column){
 
     }
-
+    //region 写文件
+    public function writeToDisk($path){
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+        $writer->save($path);
+    }
+    //endregion
 }
 
 function importSpecDatas($worksheet, $product_category_ID, $ChinesePinyin, $ProductSpecDao)
