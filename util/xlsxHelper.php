@@ -3,20 +3,21 @@ require_once dirname(__DIR__).DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."
 class XlsxHelper{
     public $worksheet;
     public $spreadsheet;
-    function __construct($path,$sheetIndex=0)
+    function __construct($path=null,$sheetIndex=0)
     {
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
 
         if($path)
-            $spreadsheet = $reader->load($path);
+            $this->spreadsheet = $reader->load($path);
         else
-            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+            $this->spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 
         if($sheetIndex)
-            $this->worksheet = $spreadsheet->getSheet($sheetIndex);
+            $this->worksheet = $this->spreadsheet->getSheet($sheetIndex);
         else
-            $this->worksheet = $spreadsheet->getActiveSheet();
+            $this->worksheet = $this->spreadsheet->getActiveSheet();
+
     }
 
 
@@ -96,9 +97,16 @@ class XlsxHelper{
     }
     //region 写文件
     public function writeToDisk($path){
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, "Xlsx");
         $writer->save($path);
+        return $path;
+    }
+    public function writeToOutput($name){
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename=' . $name );
+        header('Cache-Control: max-age=0');
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, "Xlsx");
+        $writer->save('php://output');
     }
     //endregion
 }

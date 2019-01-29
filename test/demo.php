@@ -53,4 +53,10 @@ printf_cz($columnVal);
 $rangeVal = $XlsxHelper->range('A1:C3');
 printf_cz($rangeVal);
 
+
+//定入磁盘
+$XlsxHelper->worksheet->setCellValue('A1','程序写入');
+$xlsx = $XlsxHelper->writeToDisk(GBKPath('程序生成.xlsx'));
+printf_cz($xlsx);
+
 //endregion
