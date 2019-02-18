@@ -50,11 +50,30 @@ class Dao{
         }
         //获取结果集
         $result_execute = mysqli_stmt_execute($stmt);
+
+        $meta = $stmt->result_metadata();
+        $index = 0;
+        while ($field = $meta->fetch_field())
+        {
+            $params_[] = &$row[$field->name];
+            $index++;
+        }
+
+        call_user_func_array(array($stmt, 'bind_result'), $params_);
+
+        while ($stmt->fetch()) {
+            foreach($row as $key => $val)
+            {
+                $c[$key] = $val;
+            }
+            $result[] = $c;
+        }
+        /* mysqlnl 使用以下代码
         $result = $stmt->get_result();
         $rows = array();
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
             $rows[] = $row;
-        }
+        }*/
 
         return $rows;
     }

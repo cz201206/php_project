@@ -12,6 +12,10 @@ class DBHelper{
         {
             die('Could not connect: ' . mysqli_error());
         }
+        mysqli_query($con,"SET NAMES 'UTF8'");
+        mysqli_query($con,"SET CHARACTER SET UTF8");
+        mysqli_query($con,"SET CHARACTER_SET_RESULTS=UTF8'");
+
         mysqli_select_db($con,$dbName);
         return $con;
     }

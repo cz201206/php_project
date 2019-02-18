@@ -45,3 +45,9 @@ function jsonForObjs($objs){
 function GBKPath($path){
     return iconv('utf-8','GBK',$path);
 }
+
+function debug(){
+    echo '<pre>';
+    ini_set("display_errors","On");
+    error_reporting(E_ALL);
+}
