@@ -51,3 +51,28 @@ function debug(){
     ini_set("display_errors","On");
     error_reporting(E_ALL);
 }
+
+function uploadCheck($files){
+    if ((($files["file"]["type"] == "image/gif")
+            || ($files["file"]["type"] == "image/jpeg")
+            || ($files["file"]["type"] == "image/pjpeg"))
+        && ($files["file"]["size"] < 20000))
+    {
+        if ($files["file"]["error"] > 0)
+        {
+            echo "Error: " . $files["file"]["error"] . "<br />";
+        }
+        else
+        {
+            echo "Upload: " . $files["file"]["name"] . "<br />";
+            echo "Type: " . $files["file"]["type"] . "<br />";
+            echo "Size: " . ($files["file"]["size"] / 1024) . " Kb<br />";
+            echo "Stored in: " . $files["file"]["tmp_name"];
+        }
+    }
+    else
+    {
+        echo "Invalid file";
+    }
+
+}

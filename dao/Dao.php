@@ -75,7 +75,7 @@ class Dao{
             $rows[] = $row;
         }*/
 
-        return $rows;
+        return $rows = $result;
     }
     function queryByID($SQL, $params_types, $params){
 
