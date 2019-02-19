@@ -48,6 +48,8 @@ function GBKPath($path){
 
 function debug(){
     echo '<pre>';
+
+    ini_set('date.timezone','Asia/Shanghai');
     ini_set("display_errors","On");
     error_reporting(E_ALL);
 }
@@ -59,6 +61,7 @@ function uploadCheck($files){
     if ((($files["file"]["type"] == "image/gif")
             || ($files["file"]["type"] == "image/jpeg")
             || ($files["file"]["type"] == "image/pjpeg")
+            || ($files["file"]["type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             || ($files["file"]["type"] == "text/plain"))
         && ($files["file"]["size"] < 20000))
     {
@@ -89,4 +92,19 @@ function uploadCheck($files){
         echo "Invalid file";
         
     }
+}
+
+//查看某个目录下所有文件详情（不包含其他目录）
+function filesInfo($dir,$pattern){
+    //所有文件夹及文件
+//    $files = scandir($dir);
+    //指定类型的文件
+    $files = glob($dir.DIRECTORY_SEPARATOR.$pattern);
+    var_dump($files);
+    return $files;
+}
+
+function getProjctRealPath_(){
+    $path = dirname(__DIR__).DIRECTORY_SEPARATOR;
+    return $path;
 }

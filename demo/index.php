@@ -1,4 +1,4 @@
 <script type="text/javascript">
-    var current = "upload.php";
+    var current = "filesInfo.php";
     window.location=current;
 </script>
