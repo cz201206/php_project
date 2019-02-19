@@ -53,26 +53,40 @@ function debug(){
 }
 
 function uploadCheck($files){
+
+    $filePath = dirname(__DIR__).DIRECTORY_SEPARATOR."upload/". $files["file"]["name"];
+
     if ((($files["file"]["type"] == "image/gif")
             || ($files["file"]["type"] == "image/jpeg")
-            || ($files["file"]["type"] == "image/pjpeg"))
+            || ($files["file"]["type"] == "image/pjpeg")
+            || ($files["file"]["type"] == "text/plain"))
         && ($files["file"]["size"] < 20000))
     {
         if ($files["file"]["error"] > 0)
         {
-            echo "Error: " . $files["file"]["error"] . "<br />";
+            echo "Return Code: " . $files["file"]["error"] . "<br />";
         }
         else
         {
             echo "Upload: " . $files["file"]["name"] . "<br />";
             echo "Type: " . $files["file"]["type"] . "<br />";
             echo "Size: " . ($files["file"]["size"] / 1024) . " Kb<br />";
-            echo "Stored in: " . $files["file"]["tmp_name"];
+            echo "Temp file: " . $files["file"]["tmp_name"] . "<br />";
+
+            if (file_exists($filePath))
+            {
+                echo $files["file"]["name"] . " already exists. ";
+            }
+            else
+            {
+                move_uploaded_file($files["file"]["tmp_name"],$filePath);
+                echo "Stored in: " . $filePath;
+            }
         }
     }
     else
     {
         echo "Invalid file";
+        
     }
-
 }
