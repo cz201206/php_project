@@ -24,8 +24,8 @@ switch ($action){
         echo "扫描路径：$dir<br/>";
         echo "表达式：$pattern <br/>";
 
-        $files = filesInfo($dirDir.DIRECTORY_SEPARATOR.$dirName,$pattern);
-        var_dump($files);
+        $FilePojos = filesInfo($dirDir.DIRECTORY_SEPARATOR.$dirName,$pattern);
+        require_once dirname(__DIR__).DIRECTORY_SEPARATOR."result".DIRECTORY_SEPARATOR."filesInfo".DIRECTORY_SEPARATOR."list.php";
         ;
     break;
 

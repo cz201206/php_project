@@ -7,14 +7,16 @@ class XlsxHelper{
     {
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
-
+        //如果有路径则为读取一个文件
         if($path)
             $this->spreadsheet = $reader->load($path);
+        //没有传入路径，则创建一个文件
         else
             $this->spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-
+        //如果传入 sheet 标，则读取该sheet 页
         if($sheetIndex)
             $this->worksheet = $this->spreadsheet->getSheet($sheetIndex);
+        //如果没有传入 sheet 标，则默认读取第一个 sheet 页
         else
             $this->worksheet = $this->spreadsheet->getActiveSheet();
 
@@ -92,7 +94,9 @@ class XlsxHelper{
     public function sheet(){
 
     }
-    public function info($row,$column){
+    public function info(){
+        //获取最右边列标 //获取最下边行标
+        return $this->worksheet->getHighestRowAndColumn();
 
     }
     //region 写文件

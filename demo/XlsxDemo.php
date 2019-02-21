@@ -4,14 +4,15 @@ require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."fn
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."XlsxHelper.php";
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."PinyinHelper.php";
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."DBHelper.php";
-
+debug();
 
 class XlsxDemo{
 
     public function fn(){
-        $path = GBKPath('米家电压力锅参数表V01.xlsx');
-        //$XlsxHelper = new XlsxHelper($path);//读取文件
-        $XlsxHelper = new XlsxHelper();//写文件
+        //$path = GBKPath('米家电压力锅参数表V01.xlsx');// win版
+        $path = '/Library/WebServer/Documents/php_project/upload/主力热点机型参数表相机部分整合.xlsx';// mac 版
+        $XlsxHelper = new XlsxHelper($path);//读取文件
+//        $XlsxHelper = new XlsxHelper();//写文件
         $PinyinHelper = new PinyinHelper();
         $DBHelper = new DBHelper();
 
@@ -74,4 +75,14 @@ class XlsxDemo{
 //endregion
     }
 
+    public function exec(){
+        $path = '/Library/WebServer/Documents/php_project/upload/主力热点机型参数表相机部分整合.xlsx';// mac 版
+        $XlsxHelper = new XlsxHelper($path);//读取文件
+        $info = $XlsxHelper->info();
+        var_dump($info);
+    }
+
 }
+
+$XlsxDemo = new XlsxDemo();
+$XlsxDemo->exec();

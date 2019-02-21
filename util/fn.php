@@ -3,6 +3,7 @@
 //region 文件信息相关
 class FilePojo{
     public $mtime;
+    public $basename;
     public $name;
     public $mtime_format;
 }
@@ -76,7 +77,7 @@ function uploadCheck($files){
             || ($files["file"]["type"] == "image/pjpeg")
             || ($files["file"]["type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             || ($files["file"]["type"] == "text/plain"))
-        && ($files["file"]["size"] < 20000))
+        && ($files["file"]["size"] < 200000))
     {
         if ($files["file"]["error"] > 0)
         {
@@ -118,6 +119,7 @@ function filesInfo($dir,$pattern){
     foreach($files as $file){
         $pojo = new FilePojo();
         $pojo->name = $file;
+        $pojo->basename = basename($file);
         $pojo->mtime = filemtime($file);
         $pojo->mtime_format = date("Y-m-d H:i:s",$pojo->mtime);
         $filePojos[] = $pojo;
@@ -128,6 +130,7 @@ function filesInfo($dir,$pattern){
     return $filePojos;
 }
 
+//获取 project 物理路径
 function getProjctRealPath_(){
     $path = dirname(__DIR__).DIRECTORY_SEPARATOR;
     return $path;
