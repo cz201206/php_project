@@ -24,6 +24,17 @@ class XlsxHelper{
     }
 
 
+    //可提示对象
+    public function tip(){
+        $cell = $this->worksheet->getCell('A1');
+        $cell->getRow();
+        $cell->getColumn();
+        $cell->getCalculatedValue();
+        $cell->getCoordinate();
+        $cell->getValue();
+        $cell->hasValidValue();
+    }
+    //遍历
     public function loop(){
 
         echo '<table>' . PHP_EOL;
@@ -43,6 +54,31 @@ class XlsxHelper{
         }
         echo '</table>' . PHP_EOL;
     }
+    //记录所有数据到json 根据坐标
+    public function json(){
+
+        foreach ($this->worksheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true); // This loops through all cells,
+
+            foreach ($cellIterator as $cell) {
+                $val = $cell->getValue();
+                $cell->getRow();
+                $cell->getColumn();
+                $cell->getCalculatedValue();
+                $corrdinate = $cell->getCoordinate();
+                $isValid = $cell->hasValidValue();
+
+                if(''==$val){
+
+                }else{
+                    echo "$val:$corrdinate:$isValid<br/>";
+                }
+
+            }
+        }
+    }
+
     public function cellByCoordinate($coordinate='A1'){
         return $this->worksheet->getCell($coordinate)->getCalculatedValue();
     }
