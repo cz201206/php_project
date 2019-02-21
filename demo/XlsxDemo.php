@@ -71,15 +71,18 @@ class XlsxDemo{
         $XlsxHelper->worksheet->setCellValue('A1','程序写入');
         $xlsx = $XlsxHelper->writeToDisk(GBKPath('程序生成.xlsx'));
         printf_cz($xlsx);
-
+//显示信息
+        $info = $XlsxHelper->info();
+        var_dump($info);
+//提取图片
+        $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
+        imagesToDisk($path);
 //endregion
     }
 
     public function exec(){
-        $path = '/Library/WebServer/Documents/php_project/upload/主力热点机型参数表相机部分整合.xlsx';// mac 版
-        $XlsxHelper = new XlsxHelper($path);//读取文件
-        $info = $XlsxHelper->info();
-        var_dump($info);
+        $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
+        imagesToDisk($path);
     }
 
 }

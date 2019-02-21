@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php";
+require_once __DIR__.DIRECTORY_SEPARATOR."fn.php";
 class XlsxHelper{
     public $worksheet;
     public $spreadsheet;
@@ -99,6 +100,7 @@ class XlsxHelper{
         return $this->worksheet->getHighestRowAndColumn();
 
     }
+
     //region 写文件
     public function writeToDisk($path){
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, "Xlsx");
@@ -114,7 +116,48 @@ class XlsxHelper{
     }
     //endregion
 }
-
+//提取图片
+function imagesToDisk($path){
+    $path_extract = getProjctRealPath_()."extract".DIRECTORY_SEPARATOR;
+    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+    $spreadsheet = $reader->load($path);
+    $title = $spreadsheet->getActiveSheet()->getTitle();
+    $i = 0;
+    foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
+        if ($drawing instanceof \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing) {
+            ob_start();
+            call_user_func(
+                $drawing->getRenderingFunction(),
+                $drawing->getImageResource()
+            );
+            $imageContents = ob_get_contents();
+            ob_end_clean();
+            switch ($drawing->getMimeType()) {
+                case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_PNG :
+                    $extension = 'png';
+                    break;
+                case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_GIF:
+                    $extension = 'gif';
+                    break;
+                case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_JPEG :
+                    $extension = 'jpg';
+                    break;
+            }
+        } else {
+            $zipReader = fopen($drawing->getPath(),'r');
+            $imageContents = '';
+            while (!feof($zipReader)) {
+                $imageContents .= fread($zipReader,1024);
+            }
+            fclose($zipReader);
+            $extension = $drawing->getExtension();
+        }
+        $myFileName = '00_Image_'.++$i.'.'.$extension;
+        $path_img = $path_extract.$myFileName;
+        file_put_contents($path_img,$imageContents);
+        echo "图片导出到：$path_img<br/>";
+    }
+}
 function importSpecDatas($worksheet, $product_category_ID, $ChinesePinyin, $ProductSpecDao)
 {
     $count = 0;//列计数
