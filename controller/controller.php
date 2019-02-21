@@ -14,14 +14,18 @@ switch ($action){
     //读取某个目录下所有文件显示
     case 'filesInfo':
 //        echo 'filesinfo';
+        $dirDir = dirname(__DIR__).DIRECTORY_SEPARATOR."upload";
         $dirName = $_POST['dirName'];
-        $filePath = getProjctRealPath_()."$dirName";
-        echo "扫描路径：$filePath<br/>";
-        $files = filesInfo($filePath,'*.xlsx');
-        $mtime = filemtime($files['0']);
-        echo "修改时间：$mtime<br/>";
-        $mtime_format = date("Y-m-d H:i:s",$mtime);
-        echo "修改时间(格式化)：$mtime_format<br/>";
+
+        $dir = $dirDir.DIRECTORY_SEPARATOR.$dirName;
+        if(''===$dirName)$dir = $dirDir;
+        $pattern = "*.*";
+
+        echo "扫描路径：$dir<br/>";
+        echo "表达式：$pattern <br/>";
+
+        $files = filesInfo($dirDir.DIRECTORY_SEPARATOR.$dirName,$pattern);
+        var_dump($files);
         ;
     break;
 

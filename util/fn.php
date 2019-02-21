@@ -1,5 +1,18 @@
 <?php
 
+//region 文件信息相关
+class FilePojo{
+    public $mtime;
+    public $name;
+    public $mtime_format;
+}
+
+//排序函数
+function filePojoSorter($a, $b){
+//    return strcmp($a->mtime, $b->mtime);
+    return strcmp($b->mtime, $a->mtime);
+}
+//endregion
 function json($post){
     foreach ( $post as $key => $value ) {
         if(is_array($value)){
@@ -96,12 +109,23 @@ function uploadCheck($files){
 
 //查看某个目录下所有文件详情（不包含其他目录）
 function filesInfo($dir,$pattern){
+    //结果集容器
+    $filePojos = [];
     //所有文件夹及文件
 //    $files = scandir($dir);
     //指定类型的文件
-    $files = glob($dir.DIRECTORY_SEPARATOR.$pattern);
-    var_dump($files);
-    return $files;
+    $files = glob($dir.$pattern);
+    foreach($files as $file){
+        $pojo = new FilePojo();
+        $pojo->name = $file;
+        $pojo->mtime = filemtime($file);
+        $pojo->mtime_format = date("Y-m-d H:i:s",$pojo->mtime);
+        $filePojos[] = $pojo;
+    }
+
+    //排序 根据文件修改时间
+    usort($filePojos,'filePojoSorter');
+    return $filePojos;
 }
 
 function getProjctRealPath_(){

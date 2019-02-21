@@ -23,7 +23,8 @@
         <input type="hidden" name="action" value="filesInfo"/>
 
         <select name="dirName">
-            <option value="upload" selected>upload</option>
+            <option value="" selected>upload</option>
+            <option value="img" selected>img</option>
         </select>
         <button id="btn_submit">提交</button> <span id="result_upload"></span>
 
