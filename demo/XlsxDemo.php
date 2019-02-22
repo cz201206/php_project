@@ -83,7 +83,7 @@ class XlsxDemo{
     public function exec(){
         $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
         $XlsxHelper = new XlsxHelper($path);//读取文件
-        $XlsxHelper->json();
+        $XlsxHelper->toJson();
     }
 
 }

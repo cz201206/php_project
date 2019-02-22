@@ -14,19 +14,38 @@ function filePojoSorter($a, $b){
     return strcmp($b->mtime, $a->mtime);
 }
 //endregion
-function json($post){
-    foreach ( $post as $key => $value ) {
+function jsonAsisstant($val){
+    //换行符替换内容
+    $rn = '<br/>';//<br/>
+    //替换换行符
+    $val = str_replace(array("\r\n", "\r", "\n"), $rn, $val);
+    //转义 "
+    $val = str_replace('"','\"',$val);
+    return $val;
+}
+function json($array){
+    //结果容器
+    $arr = [];
+    //换行符替换内容
+    $rn = '<br/>';//<br/>
+    foreach ( $array as $key => $value ) {
+        $key = urlencode($key);
         if(is_array($value)){
             foreach ( $value as $key2 => $value2 ) {
-                $post[$key][$key2] = urlencode ( $value2 );
+                //字符替换换行符，转义冒号
+                $value2 = jsonAsisstant($value2);
+                $key2 = urlencode($key2);
+                $arr[$key][$key2] = urlencode ( $value2 );
             }
         }else{
-            $post[$key] = urlencode ( $value );
+            //替换换行符
+            $value = jsonAsisstant($value);
+            $arr[$key] = urlencode ( $value );
         }
     }
-    $post = urldecode(json_encode($post));
+    $json = urldecode(json_encode($arr));
 
-    return $post;
+    return $json;
 }
 
 function printf_cz($content){

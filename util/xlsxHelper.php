@@ -23,7 +23,7 @@ class XlsxHelper{
 
     }
 
-
+//region 读取信息
     //可提示对象
     public function tip(){
         $cell = $this->worksheet->getCell('A1');
@@ -54,31 +54,6 @@ class XlsxHelper{
         }
         echo '</table>' . PHP_EOL;
     }
-    //记录所有数据到json 根据坐标
-    public function json(){
-
-        foreach ($this->worksheet->getRowIterator() as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(true); // This loops through all cells,
-
-            foreach ($cellIterator as $cell) {
-                $val = $cell->getValue();
-                $cell->getRow();
-                $cell->getColumn();
-                $cell->getCalculatedValue();
-                $corrdinate = $cell->getCoordinate();
-                $isValid = $cell->hasValidValue();
-
-                if(''==$val){
-
-                }else{
-                    echo "$val:$corrdinate:$isValid<br/>";
-                }
-
-            }
-        }
-    }
-
     public function cellByCoordinate($coordinate='A1'){
         return $this->worksheet->getCell($coordinate)->getCalculatedValue();
     }
@@ -136,8 +111,40 @@ class XlsxHelper{
         return $this->worksheet->getHighestRowAndColumn();
 
     }
+    //将 xlsx 文件数据 转换为 json 格式
+    public function toJson(){
+        //数据容器
+        $array = [];
+        foreach ($this->worksheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true); // This loops through all cells,
 
-    //region 写文件
+            foreach ($cellIterator as $cell) {
+                $val = $cell->getValue();
+                $cell->getRow();
+                $cell->getColumn();
+                $cell->getCalculatedValue();
+                $corrdinate = $cell->getCoordinate();
+                $isValid = $cell->hasValidValue();
+
+                if(''==$val){
+
+                }else{
+                    //数据格式处理
+
+                    //添加数据
+                    $array[$corrdinate] = $val;
+                }
+
+            }
+        }
+        //转换为 json 格式
+        $json = json($array);
+        var_dump($json);
+    }
+//endregion
+
+//region 写文件
     public function writeToDisk($path){
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, "Xlsx");
         $writer->save($path);
@@ -150,7 +157,8 @@ class XlsxHelper{
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, "Xlsx");
         $writer->save('php://output');
     }
-    //endregion
+//endregion
+
 }
 //提取图片
 function imagesToDisk($path){
@@ -300,7 +308,7 @@ function pojos_specItem($worksheet, $product_category_ID){
     $level1Title = "";$level1ID = $product_category_ID*100;
     $level2Title = "";$level2ID = $product_category_ID*1000;
     //多行数据
-    foreach ($worksheet->getRowIterator() as $row) {
+    foreach ($worksheet->getRowIteratqt7or() as $row) {
 
         $cellIterator = $row->getCellIterator();
         $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
