@@ -13,7 +13,9 @@ function filePojoSorter($a, $b){
 //    return strcmp($a->mtime, $b->mtime);
     return strcmp($b->mtime, $a->mtime);
 }
+
 //endregion
+//处理特殊字符
 function jsonAsisstant($val){
     //换行符替换内容
     $rn = '<br/>';//<br/>
@@ -23,6 +25,7 @@ function jsonAsisstant($val){
     $val = str_replace('"','\"',$val);
     return $val;
 }
+//将数组转换为 json
 function json($array){
     //结果容器
     $arr = [];
@@ -47,6 +50,8 @@ function json($array){
 
     return $json;
 }
+
+
 
 function printf_cz($content){
     echo "<pre/>";
