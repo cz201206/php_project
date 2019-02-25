@@ -8,7 +8,7 @@ debug();
 
 class XlsxDemo{
 
-    public function fn(){
+    public function fnShowList(){
         //$path = GBKPath('米家电压力锅参数表V01.xlsx');// win版
         $path = '/Library/WebServer/Documents/php_project/upload/主力热点机型参数表相机部分整合.xlsx';// mac 版
         $XlsxHelper = new XlsxHelper($path);//读取文件
@@ -77,13 +77,24 @@ class XlsxDemo{
 //提取图片
         $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
         imagesToDisk($path);
+//xlsx 转为 json 格式
+        $json = $XlsxHelper->toJson();
+        echo $json;
+//以 json 格式写入磁盘
+        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
+        $path_result = $XlsxHelper->toJsonToDisk($path_json);
+        echo $path_result;
 //endregion
     }
 
     public function exec(){
         $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
         $XlsxHelper = new XlsxHelper($path);//读取文件
-        $XlsxHelper->toJson();
+
+        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
+        $path_result = $XlsxHelper->toJsonToDisk($path_json);
+
+        echo $path_result;
     }
 
 }

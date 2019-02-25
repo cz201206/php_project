@@ -140,10 +140,15 @@ class XlsxHelper{
         }
         //转换为 json 格式
         $json = json($array);
-        var_dump($json);//前台显示
-        $filename = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
-        file_put_contents($filename,$json);//写入磁盘
-        echo "写入磁盘位置：$filename";
+
+        return $json;
+    }
+    //将 xlsx 文件数据 转换为 json 格式
+    public function toJsonToDisk($path){
+        $json = $this->toJson();
+        file_put_contents($path,$json);//写入磁盘
+        echo "写入磁盘位置：$path";
+        return $path;
     }
 //endregion
 
