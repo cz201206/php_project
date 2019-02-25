@@ -42,19 +42,19 @@
 
         #figure{
             width: 700px;
+            display: -webkit-flex;
+            -webkit-justify-content: center;
+            -webkit-align-items: center;
         }
 
         #title{
             font-size: x-large;
             background-color: #007bff !important;
             color:white;
+
         }
-        #title_container{
-            text-align: center;
-        }
-        .media{
-            padding-left: 150px;
-        }
+
+
 
     </style>
 </head>
@@ -66,14 +66,15 @@
     <div id="figure">
 
         <div class="media">
-            <img class="mr-3" src="/php_project/extract/00_Image_1.png" alt="Generic placeholder image">
+            <figure class="figure">
+                <img src="/php_project/extract/00_Image_1.png" class="figure-img img-fluid rounded">
+                <figcaption class="figure-caption" id="title"></figcaption>
+            </figure>
             <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                描述<br/>
-                360度视图
+                <a href="#" style="display: none"> 360度视图 </a>
             </div>
         </div>
-        <div id="title_container"><span id="title"></span></div>
+
 
     </div>
 
