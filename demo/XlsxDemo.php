@@ -91,10 +91,10 @@ class XlsxDemo{
         $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
         $XlsxHelper = new XlsxHelper($path);//读取文件
 
-        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
-        $path_result = $XlsxHelper->toJsonToDisk($path_json);
-
-        echo $path_result;
+//        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
+//        $path_result = $XlsxHelper->toJsonToDisk($path_json);
+//        echo $path_result;
+        imagesToDisk($path);
     }
 
 }

@@ -40,12 +40,42 @@
             padding-left: 5px;
         }
 
+        #figure{
+            width: 700px;
+        }
+
+        #title{
+            font-size: x-large;
+            background-color: #007bff !important;
+            color:white;
+        }
+        #title_container{
+            text-align: center;
+        }
+        .media{
+            padding-left: 150px;
+        }
+
     </style>
 </head>
 <body>
 
 
 <div id="result">
+
+    <div id="figure">
+
+        <div class="media">
+            <img class="mr-3" src="/php_project/extract/00_Image_1.png" alt="Generic placeholder image">
+            <div class="media-body">
+                <h5 class="mt-0">Media heading</h5>
+                描述<br/>
+                360度视图
+            </div>
+        </div>
+        <div id="title_container"><span id="title"></span></div>
+
+    </div>
 
 </div>
 
@@ -66,6 +96,8 @@
     console.log(data);
 
     //解析
+    //设置产品标题
+    $('#title').html(data.C1);
     //根据 A 列创建等量的 div 容器
     var column_l1 = 1;
     for(var property in data){
