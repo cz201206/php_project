@@ -64,7 +64,6 @@
 <div id="result">
 
     <div id="figure">
-
         <div class="media">
             <figure class="figure">
                 <img src="/php_project/extract/00_Image_1.png" class="figure-img img-fluid rounded">
@@ -74,8 +73,6 @@
                 <a href="#" style="display: none"> 360度视图 </a>
             </div>
         </div>
-
-
     </div>
 
 </div>
