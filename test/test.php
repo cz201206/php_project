@@ -8,7 +8,7 @@ require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."Pi
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."DBHelper.php";
 
 
-$path = getProjctRealPath_();
+$path = getProjctRealPath_().'upload'.DIRECTORY_SEPARATOR;
 var_dump(scandir($path));
 var_dump(glob($path.'*'));
 
