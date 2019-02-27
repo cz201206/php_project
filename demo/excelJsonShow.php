@@ -86,6 +86,7 @@
         async: false,//方便修改全局变量
         type : "GET",
         url : "/php_project/extract/json.json",
+        data: {},
         dataType : "json",//跨域请求jsonp
         success : function (data) {
             window.data = data;
