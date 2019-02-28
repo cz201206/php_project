@@ -161,5 +161,11 @@ function getProjctRealPath_(){
 }
 
 function uPath ($path){
-    return str_replace('/',DIRECTORY_SEPARATOR,$path);
+    $upath = str_replace('/',DIRECTORY_SEPARATOR,$path);
+
+    $uname = php_uname('s');
+    if('Windows NT'==$uname){
+        $upath = GBKPath($upath);
+    }
+    return $upath;
 }
