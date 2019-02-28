@@ -159,3 +159,7 @@ function getProjctRealPath_(){
     $path = dirname(__DIR__).DIRECTORY_SEPARATOR;
     return $path;
 }
+
+function uPath ($path){
+    return str_replace('/',DIRECTORY_SEPARATOR,$path);
+}
