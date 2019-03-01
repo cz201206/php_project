@@ -146,8 +146,10 @@ class XlsxHelper{
     //将 xlsx 文件数据 转换为 json 格式
     public function toJsonToDisk($path){
         $json = $this->toJson();
-        file_put_contents($path,$json);//写入磁盘
-        echo "写入磁盘位置：$path";
+        $result_write = file_put_contents($path,$json);//写入磁盘
+        if(!$result_write){
+            echo '<br/>写入 json 失败！<br/>';
+        }
         return $path;
     }
 //endregion
@@ -169,10 +171,11 @@ class XlsxHelper{
 
 }
 //提取图片
-function imagesToDisk($path){
-    $path_extract = getProjctRealPath_()."extract".DIRECTORY_SEPARATOR;
+function imagesToDisk($path_xlsx,$path_img){
+//    $path_extract = getProjctRealPath_()."extract".DIRECTORY_SEPARATOR;
+    $path_extract = $path_img;
     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
-    $spreadsheet = $reader->load($path);
+    $spreadsheet = $reader->load($path_xlsx);
     $title = $spreadsheet->getActiveSheet()->getTitle();
     $i = 0;
     foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
@@ -204,10 +207,17 @@ function imagesToDisk($path){
             fclose($zipReader);
             $extension = $drawing->getExtension();
         }
+        /*
         $myFileName = '00_Image_'.++$i.'.'.$extension;
         $path_img = $path_extract.$myFileName;
-        file_put_contents($path_img,$imageContents);
-        echo "图片导出到：$path_img<br/>";
+        */
+        $result_write = file_put_contents($path_img,$imageContents);
+        if($result_write){
+            return $path_img;
+        }else{
+            echo '图片导出失败！';
+        }
+
     }
 }
 function importSpecDatas($worksheet, $product_category_ID, $ChinesePinyin, $ProductSpecDao)
