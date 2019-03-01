@@ -25,8 +25,8 @@ function jsonAsisstant($val){
     $val = str_replace('"','\"',$val);
     return $val;
 }
-//将数组转换为 json
-function json($array){
+///将数组转换为 json
+function json_back($array){
     //结果容器
     $arr = [];
     //换行符替换内容
@@ -35,10 +35,20 @@ function json($array){
         $key = urlencode($key);
         if(is_array($value)){
             foreach ( $value as $key2 => $value2 ) {
-                //字符替换换行符，转义冒号
-                $value2 = jsonAsisstant($value2);
                 $key2 = urlencode($key2);
-                $arr[$key][$key2] = urlencode ( $value2 );
+                if(is_array($value2)){
+                    foreach ($value2 as $key3=>$value3){
+                        $value3 = jsonAsisstant($value3);
+                        $key3 = urlencode($key3);
+                        $arr[$key][$key2][$key3] = urlencode ( $value3 );
+
+                    }
+                }else{
+                    //字符替换换行符，转义冒号
+                    $value2 = jsonAsisstant($value2);
+
+                    $arr[$key][$key2] = urlencode ( $value2 );
+                }
             }
         }else{
             //替换换行符
@@ -49,6 +59,10 @@ function json($array){
     $json = urldecode(json_encode($arr));
 
     return $json;
+}
+
+function json($array){
+    return json_encode($array,JSON_UNESCAPED_UNICODE);
 }
 
 
