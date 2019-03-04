@@ -183,3 +183,11 @@ function uPath ($path){
     }
     return $upath;
 }
+
+function isWin(){
+    $uname = php_uname('s');
+    if('Windows NT'==$uname){
+        return true;
+    }
+    return false;
+}
