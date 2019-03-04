@@ -1,4 +1,4 @@
 <script type="text/javascript">
-    var current = "excelJsonShow.php";
+    var current = "XlsxDemo.php";
     window.location=current;
 </script>

@@ -115,7 +115,7 @@ function uploadCheck($files){
             || ($files["file"]["type"] == "image/pjpeg")
             || ($files["file"]["type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             || ($files["file"]["type"] == "text/plain"))
-        && ($files["file"]["size"] < 200000))
+        && ($files["file"]["size"] < 2000000))
     {
         if ($files["file"]["error"] > 0)
         {
@@ -190,4 +190,8 @@ function isWin(){
         return true;
     }
     return false;
+}
+
+function env(){
+    return require(getProjctRealPath_().uPath('config/env.php'));
 }

@@ -87,14 +87,17 @@ class XlsxDemo{
 //endregion
     }
 
+    //代码改动区
     public function exec(){
-        $path = '/Library/WebServer/Documents/php_project/upload/小米小爱触屏音箱参数表V01.xlsx';// mac 版
-        $XlsxHelper = new XlsxHelper($path);//读取文件
+        //上传路径
+        $path_upload = env()['path_upload'];
+        $fileName = '盒子2.xlsx';
+        $path = "$path_upload/$fileName";
 
-//        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
-//        $path_result = $XlsxHelper->toJsonToDisk($path_json);
-//        echo $path_result;
-        imagesToDisk($path);
+        $XlsxHelper = new XlsxHelper($path);//读取文件
+        $arrays = $XlsxHelper->toArrays();
+        printf_cz($arrays);
+
     }
 
 }

@@ -1,11 +1,15 @@
 <?php
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php";
 require_once __DIR__.DIRECTORY_SEPARATOR."fn.php";
+require_once __DIR__.DIRECTORY_SEPARATOR."ChinesePinyin.class.php";
 class XlsxHelper{
+
+    public $ChinesePinyin;
     public $worksheet;
     public $spreadsheet;
     function __construct($path=null,$sheetIndex=0)
     {
+        $this->ChinesePinyin = new ChinesePinyin();
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
         //如果有路径则为读取一个文件
@@ -53,6 +57,17 @@ class XlsxHelper{
             echo '</tr>' . PHP_EOL;
         }
         echo '</table>' . PHP_EOL;
+    }
+    public function loop_array(){
+        $array = $this->worksheet->rangeToArray(
+            'B1:C5',     // The worksheet range that we want to retrieve
+            NULL,        // Value that should be returned for empty cells
+            TRUE,        // Should formulas be calculated (the equivalent of getCalculatedValue() for each cell)
+            TRUE,        // Should values be formatted (the equivalent of getFormattedValue() for each cell)
+            TRUE         // Should the array be indexed by cell row and cell column
+        );
+//        $array = $this->worksheet->toArray();
+        return $array;
     }
     public function cellByCoordinate($coordinate='A1'){
         return $this->worksheet->getCell($coordinate)->getCalculatedValue();
@@ -142,6 +157,53 @@ class XlsxHelper{
         $json = json($array);
 
         return $json;
+    }
+    //将 xlsx 文件数据 转换为 json 格式， 包含多列
+    public function toArrays(){
+        $returnVal = [];//返回数据
+        $cols_A = [];//第一列数据
+        $cols_B = [];//第二列数据
+        $cols_n = [];//第 n 列数据
+        //以列为单位进行遍历
+        //A B 两列做为公开数据记录
+        //其他列效单独记录
+        //合并数据 A+B+n 并装入返回 named 数据容器
+
+        foreach ($this->worksheet->getColumnIterator() as $col) {
+            $cellIterator = $col->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true); // This loops through all cells,
+            $colCorr = '';
+            foreach ($cellIterator as $cell) {
+                $val = $cell->getValue();
+                $rowCorr = $cell->getRow();
+                $colCorr = $cell->getColumn();
+                $cell->getCalculatedValue();
+                $corrdinate = $cell->getCoordinate();
+                $isValid = $cell->hasValidValue();
+
+                if(''==$val){
+
+                }else if('A'==$colCorr){//记录 A 列数据
+                    $cols_A[$corrdinate] = $val;
+                }else if('B'==$colCorr){//记录 B 列数据
+                    $cols_B[$corrdinate] = $val;
+                }else{//其他列数据
+                    $cols_n[$corrdinate] = $val;
+                }
+            }//一列完成
+            if($colCorr!='A' && $colCorr!='B' ){//如果是其他列则合并数据，并记录
+
+                if(!$cols_n)break;
+                $title = current($cols_n);
+                $name = $this->ChinesePinyin->TransformWithoutTonedeleteCode($title);
+                $data = array_merge($cols_A,$cols_B,$cols_n);
+                $returnVal[$name] = $data;
+                $cols_n = array();
+            }
+        }
+
+
+        return $returnVal;
     }
     //将 xlsx 文件数据 转换为 json 格式
     public function toJsonToDisk($path){
