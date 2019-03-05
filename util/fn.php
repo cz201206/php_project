@@ -16,7 +16,7 @@ function filePojoSorter($a, $b){
 
 //endregion
 //处理特殊字符
-function jsonAsisstant($val){
+function jsonReplace($val){
     //换行符替换内容
     $rn = '<br/>';//<br/>
     //替换换行符
@@ -38,21 +38,21 @@ function json_back($array){
                 $key2 = urlencode($key2);
                 if(is_array($value2)){
                     foreach ($value2 as $key3=>$value3){
-                        $value3 = jsonAsisstant($value3);
+                        $value3 = jsonReplace($value3);
                         $key3 = urlencode($key3);
                         $arr[$key][$key2][$key3] = urlencode ( $value3 );
 
                     }
                 }else{
                     //字符替换换行符，转义冒号
-                    $value2 = jsonAsisstant($value2);
+                    $value2 = jsonReplace($value2);
 
                     $arr[$key][$key2] = urlencode ( $value2 );
                 }
             }
         }else{
             //替换换行符
-            $value = jsonAsisstant($value);
+            $value = jsonReplace($value);
             $arr[$key] = urlencode ( $value );
         }
     }
@@ -194,4 +194,10 @@ function isWin(){
 
 function env(){
     return require(getProjctRealPath_().uPath('config/env.php'));
+}
+
+function mkdirs($dir){
+    if(!file_exists($dir)){
+        mkdir($dir,0777,true);
+    }
 }

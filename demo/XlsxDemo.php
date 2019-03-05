@@ -1,10 +1,10 @@
 <?php
 
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."fn.php";
+debug();
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."XlsxHelper.php";
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."PinyinHelper.php";
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."DBHelper.php";
-debug();
 
 class XlsxDemo{
 
@@ -84,19 +84,33 @@ class XlsxDemo{
         $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
         $path_result = $XlsxHelper->toJsonToDisk($path_json);
         echo $path_result;
+//        coordinatedArray
+        $XlsxHelper = new XlsxHelper($path);//读取文件
+        $arrays = $XlsxHelper->coordinatedArrays();
+        printf_cz($arrays);
 //endregion
     }
 
     //代码改动区
     public function exec(){
+        echo 'from exec<br>';
         //上传路径
         $path_upload = env()['path_upload'];
+        $path_extract = env()['path_extract'];
         $fileName = '盒子2.xlsx';
         $path = "$path_upload/$fileName";
 
         $XlsxHelper = new XlsxHelper($path);//读取文件
-        $arrays = $XlsxHelper->toArrays();
-        printf_cz($arrays);
+        //获取坐标命名的关联数组
+        $arrays = $XlsxHelper->coordinatedArrays();
+        //遍历产品列
+        foreach ($arrays as $name=>$col){
+            $path_dir = uPath("$path_extract/$name");
+            mkdirs($path_dir);
+            $path_file = uPath("$path_extract/$name/xlsx.json");
+            file_put_contents($path_file,json($col));
+            echo "数据位置：$path_file<hr/>";
+        }
 
     }
 
