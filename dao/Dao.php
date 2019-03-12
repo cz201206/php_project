@@ -151,6 +151,69 @@ class Dao{
     {
         mysqli_close($this->conn);
     }
+    function  mysqliObj($activityType){
+        //连接信息
+        $mysql_conf = array(
+            'host' => 'localhost',
+            'db' => 'db_as_ssh',
+            'db_user' => 'root',
+            'db_pwd' => 'fx123321',
+        );
+
+//连接
+        $mysqli = @new mysqli($mysql_conf['host'], $mysql_conf['db_user'], $mysql_conf['db_pwd']);
+        $mysqli->set_charset('utf8');
+        if ($mysqli->connect_errno) {
+            die("could not connect to the database:\n" . $mysqli->connect_error);//诊断连接错误
+        }
+//设置编码
+        $mysqli->query("set names 'utf8';");//编码转化
+
+//选择数据库
+        $select_db = $mysqli->select_db($mysql_conf['db']);
+        if (!$select_db) {
+            die("could not connect to the db:\n" . $mysqli->error);
+        }
+
+// SQL
+//$sql = "SELECT * FROM `t_GiftDetails` where activityType = '米家折叠婴儿推车赠送专用前扶手';";
+        $sql = "SELECT * FROM `t_GiftDetails` where activityType = ?;";
+//$activityType = '米家折叠婴儿推车赠送专用前扶手';
+
+//预处理
+        $stmt=$mysqli->prepare($sql);
+//第一个参数表明变量类型，有i(int),d(double),s(string),b(blob)
+        $stmt->bind_param('s',$activityType);
+
+//执行预处理语句
+        $stmt->execute();
+
+//结果
+        $c = [];
+        $row = [];
+        $result =[];
+        $meta = $stmt->result_metadata();
+        $index = 0;
+        while ($field = $meta->fetch_field())
+        {
+            $params_[] = &$row[$field->name];
+            $index++;
+        }
+
+        call_user_func_array(array($stmt, 'bind_result'), $params_);
+
+        while ($stmt->fetch()) {
+            foreach($row as $key => $val)
+            {
+                $c[$key] = $val;
+            }
+            $result[] = $c;
+        }
+
+
+        $mysqli->close();
+        return $result;
+    }
 }
 
 
