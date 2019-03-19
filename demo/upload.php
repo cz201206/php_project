@@ -20,7 +20,7 @@
 
         <input type="hidden" name="action" value="upload"/>
         选择文件<input name="file" type="file"/>
-        <button id="btn_submit">提交</button> <span id="result_upload"></span>
+        <button id="btn_submit" type="submit">提交</button> `<span id="result_upload"></span>
 
     </form>
 </div>

@@ -104,8 +104,10 @@ function debug(){
     ini_set('date.timezone','Asia/Shanghai');
     ini_set("display_errors","On");
     error_reporting(E_ALL);
-    var_dump($_POST);
+
     var_dump($_GET);
+    var_dump($_POST);
+    var_dump($_FILES);
 }
 
 function uploadCheck($files){
