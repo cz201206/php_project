@@ -322,3 +322,8 @@ function  mysqliObj($activityType){
     $mysqli->close();
     return $result;
 }
+
+function currentTime(){
+    $dateTime = date('Y-m-d H:i:s', time());
+    return $dateTime;
+}
