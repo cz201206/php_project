@@ -113,7 +113,12 @@ $("#div_tip").hover(function(){
 
 <script class="调试开始"></script>
 <script>
-
+    $("tr td:first-child").each(
+        function () {
+            var text = $(this).text();
+            $(this).html('<a href="#">'+text+'</a>');
+        }
+    );
 </script>
 <script class="调试结束"></script>
 
