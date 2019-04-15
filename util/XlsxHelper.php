@@ -460,7 +460,26 @@ class XlsxHelper{
             }
         }
     }
-
+    public static function sheetToJson($path_xlsx,$sheetIndex){
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load($path_xlsx);
+        $worksheet = $spreadsheet->getsheet($sheetIndex);
+        //形如 [[],[]]
+        $array = $worksheet->toArray();
+        $array_associ_result = [];
+        foreach ($array as $l2Array){
+            $entryKey = '';
+            $entry = [];
+            foreach ($l2Array as $key => $value){
+                if('0'==$key)$entryKey = $value;
+                else{
+                    $entry[] = $value;
+                }
+            }
+            $array_associ_result[$entryKey] = $entry;
+        }
+        return json($array_associ_result);
+    }
 //endregion
 
 }

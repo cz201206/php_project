@@ -18,6 +18,7 @@
             position: absolute;
             z-index: 10;
             background: #fff;
+            padding:15px;
         }
 
     </style>
@@ -33,11 +34,11 @@
             <td>1</td>
         </tr>
         <tr>
-            <td>CPU</td>
+            <td>镜像</td>
             <td>2</td>
         </tr>
         <tr>
-            <td>电池</td>
+            <td>分辨率</td>
             <td>3</td>
         </tr>
         <tr>
@@ -66,7 +67,7 @@
 
 <script class="变量开始"></script>
 <script>
-
+var enties = {"相机":["相机解释\n相机解释2\n相机解释3\"","http:\/\/aa.com"],"镜像":["镜像解释","http:\/\/aa.com"],"分辨率":["分辨率解释","http:\/\/aa.com"]};
 </script>
 <script class="变量结束"></script>
 
@@ -97,6 +98,10 @@ $("td").hover(function(){
     //显示
     $('#div_tip').show();
 
+    //切换词条内容
+    var text = $(this).text();
+    var explaination = enties[text][0];
+    $("#div_tip").html(explaination);
     console.log($(this).height());
 },function(){
     $('#div_tip').hide();
@@ -113,12 +118,21 @@ $("#div_tip").hover(function(){
 
 <script class="调试开始"></script>
 <script>
+
+    //选择词条所在单元格
     $("tr td:first-child").each(
         function () {
+            //词条文件
             var text = $(this).text();
-            $(this).html('<a href="#">'+text+'</a>');
+            if(enties[text]){
+                //词条转化为链接
+                $(this).html('<a href="'+enties[text][1]+'">'+text+'</a>');
+
+            }
         }
     );
+console.log(enties);
+
 </script>
 <script class="调试结束"></script>
 
