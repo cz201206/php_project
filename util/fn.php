@@ -327,3 +327,27 @@ function currentTime(){
     $dateTime = date('Y-m-d H:i:s', time());
     return $dateTime;
 }
+
+function date_formated(){
+    return date("Y-m-d H:i",time());
+}
+
+function cz_date_diff($start_date, $end_date){
+    $datetime_start = new DateTime($start_date);
+    $datetime_end = new DateTime($end_date);
+    $days = $datetime_start->diff($datetime_end)->days;
+    return $days;
+}
+
+
+
+function appendToFile($path, $data){
+    $time = date_formated();
+    $data = "$time $data".PHP_EOL;
+    $result_write = file_put_contents($path, $data, FILE_APPEND);//写入磁盘
+    if(!$result_write){
+        return false;
+    }else{
+        return $path;
+    }
+}

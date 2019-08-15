@@ -2,7 +2,6 @@
 <script src="/public/lib/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <script src="/public/project/specs/js/fn.js"></script>
 
-<?php require_once  __DIR__.DIRECTORY_SEPARATOR."script".DIRECTORY_SEPARATOR."bable.scritp.php" ?>
 
 <script type="text/javascript">//对象获取，变量声明定义
 
@@ -23,8 +22,7 @@
 </script>
 
 <script type="text/javascript">//调试信息
-
-    var str = "你们APTx,世界中国DOC,足球 soccer";
-    var newStr = str.replace('soccer','<a class="tip">世界</a>');
-    console.log(newStr);
 </script>
+
+
+
