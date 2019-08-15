@@ -39,8 +39,10 @@ function dirs($conf){
     // layout 相关路径
     $layout_client = "$path_app".DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."client";
     $layout_admin = "$path_app".DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."admin";
+    $layout_public = "$path_app".DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."public";
     pri_mk_dirs($layout_client);
     pri_mk_dirs($layout_admin);
+    pri_mk_dirs($layout_public);
 
 }
 
@@ -60,6 +62,28 @@ function components($conf){
     //dao
     $filename = $path_app.DIRECTORY_SEPARATOR.'dao'.DIRECTORY_SEPARATOR.$name_current_module."Dao.php";
     pri_shell_exect($template_dao, $filename);
+
+}
+
+function layout_public($conf){
+    $path_app = $conf['path_app'];
+
+    $pattern_src = $path_app.DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."*.*";
+    $files_src = glob($pattern_src);
+    $count = sizeof($files_src);
+    if($files_src){
+        echo "已经复制过了：$count".PHP_EOL;
+    }else{
+        $pattern_des = __DIR__.DIRECTORY_SEPARATOR."public/*.*";
+        $files_des = glob($pattern_des);
+        $count = sizeof($files_des);
+        foreach ($files_des as $file){
+
+        }
+        echo "成功复制文件数量：$count";
+    }
+
+
 
 }
 
@@ -86,12 +110,32 @@ function layouts($conf, $isClient){
 
     //生成 layout 中各部分文件
     // html
+    $template_html = __DIR__.DIRECTORY_SEPARATOR."template_html.php";
+    $filename_html = $dir_module.DIRECTORY_SEPARATOR."html.php";
+    pri_shell_exect($template_html, $filename_html);
     // left
+    $template_left = __DIR__.DIRECTORY_SEPARATOR."template_left.php";
+    $filename_left = $dir_module.DIRECTORY_SEPARATOR."left.php";
+    pri_shell_exect($template_left, $filename_left);
     // middle
+    $template_middle = __DIR__.DIRECTORY_SEPARATOR."template_middle.php";
+    $filename_middle = $dir_module.DIRECTORY_SEPARATOR."middle.php";
+    pri_shell_exect($template_middle, $filename_middle);
     // right
-    //
+    $template_right = __DIR__.DIRECTORY_SEPARATOR."template_right.php";
+    $filename_right = $dir_module.DIRECTORY_SEPARATOR."right.php";
+    pri_shell_exect($template_right, $filename_right);
+    // script
+    $template_script = __DIR__.DIRECTORY_SEPARATOR."template_script.php";
+    $filename_script = $dir_module.DIRECTORY_SEPARATOR."template_script.php";
+    pri_shell_exect($template_script, $filename_script);
+    // style
+    $template_style = __DIR__.DIRECTORY_SEPARATOR."template_style.php";
+    $filename_style = $dir_module.DIRECTORY_SEPARATOR."style.php";
+    pri_shell_exect($template_style, $filename_style);
 }
 /*执行*/
 //dirs($conf);//新建目录结构
 //components($conf);
-layouts($conf, 1);
+//layouts($conf, 1);
+var_dump(glob('/Library/WebServer/Documents/php_project/asset/app/public/*.*'));
