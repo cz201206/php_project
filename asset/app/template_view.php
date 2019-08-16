@@ -4,7 +4,11 @@ date_default_timezone_set("PRC");
 $conf = require_once(__DIR__.DIRECTORY_SEPARATOR.'conf.php');
 $name_current_module = $conf['name_current_module'];
 $time = date("Y-m-d H:i:s",time());
-
+$is_client = $conf['is_client'];
+if($is_client)
+    $dir = 'client';
+else
+    $dir = 'admin';
 ?>
 < ?php
 session_start();
@@ -25,4 +29,4 @@ if($user){
     header('Location: /project/tmall/client/login.php');
     exit();
 }
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."client".DIRECTORY_SEPARATOR."<?=$name_current_module?>".DIRECTORY_SEPARATOR."html.php";
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."<?=$dir?>".DIRECTORY_SEPARATOR."<?=$name_current_module?>".DIRECTORY_SEPARATOR."html.php";

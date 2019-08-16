@@ -46,6 +46,43 @@ function dirs($conf){
 
 }
 
+/**
+ * @param $dir_des
+ * @param $dir_src
+ */
+function pri_copy_files($dir_des, $dir_src)
+{
+    $pattern_des = $dir_des . DIRECTORY_SEPARATOR . "*.*";
+    $files_des = glob($pattern_des);
+    $count = sizeof($files_des);
+    if ($files_des) {
+        echo "已经复制过了：$count" . PHP_EOL;
+    } else {
+        $pattern_src = $dir_src . DIRECTORY_SEPARATOR . "*.*";
+        $files_src = glob($pattern_src);
+        $count = sizeof($files_src);
+        foreach ($files_src as $file) {
+            $bname = basename($file);
+
+            $source = $file;
+            $dest = $dir_des . DIRECTORY_SEPARATOR . $bname;
+            if (file_exists($dest)) {
+                echo "文件已存在无需复制：$dest" . PHP_EOL;
+            } else {
+
+                $resutl = copy($source, $dest);
+                if ($resutl)
+                    echo "文件复制成功：$dest" . PHP_EOL;
+                else
+                    echo "复制失败！：$dest" . PHP_EOL;
+
+            }
+
+        }
+        echo "成功复制文件数量：$count" . PHP_EOL;
+    }
+}
+
 function components($conf){
     $path_app = $conf['path_app'];
     $name_current_module = $conf['name_current_module'];
@@ -69,51 +106,37 @@ function layout_public($conf){
     $path_app = $conf['path_app'];
 
     $dir_src = __DIR__.DIRECTORY_SEPARATOR."public";
-
     $dir_des = $path_app.DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."public";
-    $pattern_des = $dir_des.DIRECTORY_SEPARATOR."*.*";
-    $files_des = glob($pattern_des);
-    $count = sizeof($files_des);
-    if($files_des){
-        echo "已经复制过了：$count".PHP_EOL;
-    }else{
-        $pattern_src =$dir_src.DIRECTORY_SEPARATOR."*.*";
-        $files_src = glob($pattern_src);
-        $count = sizeof($files_src);
-        foreach ($files_src as $file){
-            $bname =  basename($file);
 
-            $source = $file;
-            $dest = $dir_des.DIRECTORY_SEPARATOR.$bname;
-            if(file_exists($dest)){
-                echo "文件已存在无需复制：$dest".PHP_EOL;
-            }else{
-
-                $resutl = copy($source, $dest);
-                if($resutl)
-                    echo "文件复制成功：$dest".PHP_EOL;
-                else
-                    echo "复制失败！：$dest".PHP_EOL;
-
-            }
-
-        }
-        echo "成功复制文件数量：$count".PHP_EOL;
-    }
-
+    pri_copy_files($dir_des, $dir_src);
 
 
 }
 
-function layouts($conf, $isClient){
+
+function asset($conf){
+    $path_app = $conf['path_app'];
+
+    $dir_src = __DIR__.DIRECTORY_SEPARATOR."asset";
+    $dir_des = $path_app.DIRECTORY_SEPARATOR."asset";
+
+    pri_copy_files($dir_des, $dir_src);
+
+
+}
+
+
+
+function layouts($conf){
     //完整路径1 ：应用根目录/[client|admin]/moduleName.php
     //完整路径2 ：应用根目录/layout/[client|admin]/moduleName/name.php
     //获取 app 根目录
     $path_app = $conf['path_app'];
+    $is_client = $conf['is_client'];
     //获取本模块名
     $name_current_module = $conf['name_current_module'];
     $dir = '';
-    if($isClient){
+    if($is_client){
         $dir='client';
     }else{
         $dir='admin';
@@ -145,7 +168,7 @@ function layouts($conf, $isClient){
     pri_shell_exect($template_right, $filename_right);
     // script
     $template_script = __DIR__.DIRECTORY_SEPARATOR."template_script.php";
-    $filename_script = $dir_module.DIRECTORY_SEPARATOR."template_script.php";
+    $filename_script = $dir_module.DIRECTORY_SEPARATOR."script.php";
     pri_shell_exect($template_script, $filename_script);
     // style
     $template_style = __DIR__.DIRECTORY_SEPARATOR."template_style.php";
@@ -155,5 +178,6 @@ function layouts($conf, $isClient){
 /*执行*/
 dirs($conf);//新建目录结构
 components($conf);
-layouts($conf, 1);
+layouts($conf);
 layout_public($conf);
+asset($conf);
