@@ -68,19 +68,37 @@ function components($conf){
 function layout_public($conf){
     $path_app = $conf['path_app'];
 
-    $pattern_src = $path_app.DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."*.*";
-    $files_src = glob($pattern_src);
-    $count = sizeof($files_src);
-    if($files_src){
+    $dir_src = __DIR__.DIRECTORY_SEPARATOR."public";
+
+    $dir_des = $path_app.DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."public";
+    $pattern_des = $dir_des.DIRECTORY_SEPARATOR."*.*";
+    $files_des = glob($pattern_des);
+    $count = sizeof($files_des);
+    if($files_des){
         echo "已经复制过了：$count".PHP_EOL;
     }else{
-        $pattern_des = __DIR__.DIRECTORY_SEPARATOR."public/*.*";
-        $files_des = glob($pattern_des);
-        $count = sizeof($files_des);
-        foreach ($files_des as $file){
+        $pattern_src =$dir_src.DIRECTORY_SEPARATOR."*.*";
+        $files_src = glob($pattern_src);
+        $count = sizeof($files_src);
+        foreach ($files_src as $file){
+            $bname =  basename($file);
+
+            $source = $file;
+            $dest = $dir_des.DIRECTORY_SEPARATOR.$bname;
+            if(file_exists($dest)){
+                echo "文件已存在无需复制：$dest".PHP_EOL;
+            }else{
+
+                $resutl = copy($source, $dest);
+                if($resutl)
+                    echo "文件复制成功：$dest".PHP_EOL;
+                else
+                    echo "复制失败！：$dest".PHP_EOL;
+
+            }
 
         }
-        echo "成功复制文件数量：$count";
+        echo "成功复制文件数量：$count".PHP_EOL;
     }
 
 
@@ -135,7 +153,7 @@ function layouts($conf, $isClient){
     pri_shell_exect($template_style, $filename_style);
 }
 /*执行*/
-//dirs($conf);//新建目录结构
-//components($conf);
-//layouts($conf, 1);
-var_dump(glob('/Library/WebServer/Documents/php_project/asset/app/public/*.*'));
+dirs($conf);//新建目录结构
+components($conf);
+layouts($conf, 1);
+layout_public($conf);
