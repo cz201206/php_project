@@ -11,6 +11,7 @@ else
     $dir = 'admin';
 ?>
 < ?php
+/*
 session_start();
 $user = @$_SESSION['user'];
 //var_dump($user);
@@ -29,4 +30,5 @@ if($user){
     header('Location: /project/tmall/client/login.php');
     exit();
 }
+*/
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."layout".DIRECTORY_SEPARATOR."<?=$dir?>".DIRECTORY_SEPARATOR."<?=$name_current_module?>".DIRECTORY_SEPARATOR."html.php";

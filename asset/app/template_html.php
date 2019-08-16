@@ -1,3 +1,10 @@
+<?php
+
+date_default_timezone_set("PRC");
+$conf = require_once(__DIR__.DIRECTORY_SEPARATOR.'conf.php');
+$title = $conf['title'];
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +14,7 @@
     < ?php require_once  dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."style.php" ?>
     <link href="/public/lib/icon/font-awesome.css" rel="stylesheet">
     < ?php require_once  __DIR__.DIRECTORY_SEPARATOR."style.php" ?>
-    <title>首页</title>
+    <title><?=$title?></title>
 </head>
 <body>
 < ?php require_once  dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."nav.php" ?>
