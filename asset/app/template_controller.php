@@ -16,7 +16,19 @@ $service = new <?=$name_current_module?>Service();
 $action = @$_POST['action'];
 switch ($action){
 
-    case "":
+    case "add":
+    break;
+
+    case "delete":
+    break;
+
+    case "update":
+    break;
+
+    case "find":
+    break;
+
+    case "list":
     break;
 
     default:
