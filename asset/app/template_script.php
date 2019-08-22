@@ -2,6 +2,10 @@
 
 </script>
 
+<script type="text/javascript">//初始化
+
+</script>
+
 <script type="text/javascript">//函数定义
 
 

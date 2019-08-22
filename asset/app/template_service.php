@@ -7,7 +7,7 @@ $time = date("Y-m-d H:i:s",time());
 
 ?>
 < ?php
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR."service".DIRECTORY_SEPARATOR."<?=$name_current_module?>Dao.php";
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."dao".DIRECTORY_SEPARATOR."<?=$name_current_module?>Dao.php";
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR."util".DIRECTORY_SEPARATOR."fn.php";
 
 class <?=$name_current_module?>Service
@@ -36,6 +36,12 @@ class <?=$name_current_module?>Service
     //查找
     public function find($id){
         $result = $this->dao->find($id);
+        return $result;
+    }
+
+    //一些数据
+    public function list(){
+        $result = $this->dao->list();
         return $result;
     }
 

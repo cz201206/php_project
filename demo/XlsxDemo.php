@@ -81,7 +81,7 @@ class XlsxDemo{
         $json = $XlsxHelper->toJson();
         echo $json;
 //以 json 格式写入磁盘
-        $path_json = getProjctRealPath_().'extract'.DIRECTORY_SEPARATOR.'json.json';
+        $path_json = path_app().'extract'.DIRECTORY_SEPARATOR.'json.json';
         $path_result = $XlsxHelper->toJsonToDisk($path_json);
         echo $path_result;
 //        coordinatedArray

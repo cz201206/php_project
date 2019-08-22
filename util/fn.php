@@ -197,7 +197,7 @@ function isWin(){
 }
 
 function env(){
-    return require(getProjctRealPath_().uPath('config/env.php'));
+    return require(path_app().uPath('config/env.php'));
 }
 
 function mkdirs($dir){
